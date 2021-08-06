@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}PROFILE {% endblock title %}
+{% block content %}
+{{user.username}}
+{{user.email}}
+{{user.profile.pic.url}}
+{% for delete in pq  %}
+<a href="{% url 'users:acc_del' delete.id %}"><button type="submit"></button> </a>
+{% endfor %}
+
+{% endblock content %}

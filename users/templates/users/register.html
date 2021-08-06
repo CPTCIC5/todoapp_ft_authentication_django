@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title%} REGISTER {% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+{{message}}
+{% endfor %}
+{% endif %}
+<form method="POST">
+{% csrf_token %}
+    {{form |crispy}}
+    <button type="submit" class="btn btn-primary mb-2">Register</button>
+</form>
+<small><strong>
+Already have an account?Login. </strong></small>
+{% endblock content %}
