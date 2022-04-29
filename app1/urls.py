@@ -8,6 +8,4 @@ urlpatterns = [
     path('add_todo/',views.add_todo,name='add_todo'),
     path('delete/<int:question_id>/',views.delete_todo,name='delete_todo'),
     path('contact/',views.contact,name='contact'),
-    path('sum/',views.sum,name='sum'),
-    path('results/',views.results,name='results')
 ]

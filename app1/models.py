@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from datetime import datetime
 
 class Todo(models.Model):
     added_text=models.DateTimeField()
@@ -13,6 +13,7 @@ class Todo(models.Model):
 
     class Meta():
         verbose_name_plural='Todo"s'
+        ordering=['-text']
 
 class Contact(models.Model):
     name=models.CharField(max_length=50,null=True)
