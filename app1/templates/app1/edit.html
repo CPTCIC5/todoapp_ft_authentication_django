@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}INDEX {% endblock title %}
+{% block content %}
+
+<div class="row mt-4">
+	<div class="col">
+		<h2>Add Item</h2>
+    {% if messages %} {% for msg in messages %} {{msg}} {% endfor %}{% endif %}
+    {% if user.is_authenticated %}
+    <form method="post" class="form-inline">
+        {% csrf_token %}
+		  <input type="text" id="text" name="text" class="form-control mb-2 mr-sm-2" placeholder="type here...">
+      <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+    {% else %}
+    <h2>PLZ login to add</h2>
+    {% endif %}
+  </div>
+</div>
+  <div class="row mt-4">
+<div>
+
+{% endblock content %}

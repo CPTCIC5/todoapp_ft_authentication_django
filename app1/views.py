@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import Contact, Todo
 from django.urls import reverse
 from django.utils import timezone
 from django.http import HttpResponseRedirect,HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+import datetime
 
 def index(request):
     todo_item=Todo.objects.all().order_by("added_text")
@@ -20,9 +22,33 @@ def add_todo(request):
     return HttpResponseRedirect("/")
 
 @login_required
+def edit_todo(request,text):
+    #queryset=Todo.objects.get(text=text)
+    queryset=get_object_or_404(Todo,text=text)
+    if request.user == queryset.author:
+        if request.method == 'POST':
+            text=request.POST.get('text')
+            #print(queryset,len(text))
+            """
+                        if len(text)>2 and len(text)>200:
+                messages.success(request,'text must be from 2 to 200 chars')
+                return HttpResponseRedirect(reverse('app1:edit_todo'),args=[queryset.text])
+            """
+            queryset.text=text
+            queryset.added_text=datetime.datetime.now()
+            queryset.save()
+            messages.success(request,'Updated')
+            return HttpResponseRedirect(reverse('app1:index'))
+    else:
+        messages.success(request,'u can"t edit someone else post')
+        return HttpResponseRedirect(reverse('app1:index'))
+    return render(request,'app1/edit.html')
+
+@login_required
 def delete_todo(request,question_id):
-    delete=Todo.objects.get(id=question_id)
-    if delete.author==request.user:
+    #delete=Todo.objects.get(id=question_id)
+    delete=get_object_or_404(Todo,id=question_id)
+    if delete.author == request.user:
         delete.delete()
     else:
         return HttpResponse("You can't cez u won't cez it's post of anyother user n it's a bad thing..")
